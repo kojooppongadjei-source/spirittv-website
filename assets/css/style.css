@@ -50,7 +50,6 @@ img{max-width:100%;display:block;}
 }
 .brand-logo{
   height:56px;width:auto;display:block;
-  background:#fff;border-radius:8px;padding:6px 10px;
 }
 .nav-links{display:flex;gap:32px;align-items:center;}
 .nav-links a{color:rgba(245,246,250,.75);font-size:14px;font-weight:600;transition:color .15s;}
