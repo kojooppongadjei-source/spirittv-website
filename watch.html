@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watch Live — Spirit TV | Uganda</title>
+<meta name="description" content="Watch Spirit TV live online — Uganda's inspiring Christian television channel. Streaming worldwide, 24/7.">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
+<style>
+.watch-hero{background:var(--void);color:var(--paper);padding:48px 0 24px;}
+.watch-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.15;margin-bottom:8px;}
+.watch-sub{color:rgba(245,246,250,.65);font-size:15px;max-width:520px;}
+.player-wrap{background:#000;border-radius:16px;overflow:hidden;position:relative;margin:24px 0;aspect-ratio:16/9;box-shadow:0 8px 32px rgba(0,0,0,.35);}
+#spirit-tv-player{width:100%;height:100%;display:block;border-radius:16px;background:#000;}
+.player-controls{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:16px 20px 14px;display:flex;align-items:center;gap:14px;opacity:0;transition:opacity .3s;}
+.player-wrap:hover .player-controls{opacity:1;}
+.player-controls button{background:none;border:0;color:#fff;font-size:18px;cursor:pointer;padding:4px;}
+.player-controls input[type="range"]{width:80px;}
+.player-loading{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:12px;border-radius:16px;z-index:2;}
+.player-loading p{font-size:13px;color:rgba(255,255,255,.6);}
+.spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--magenta);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(232,68,122,.15);color:var(--magenta);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:14px;}
+.live-dot{width:7px;height:7px;background:var(--magenta);border-radius:50%;animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.stream-error{display:none;position:absolute;inset:0;background:#000;color:#fff;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;border-radius:16px;z-index:2;}
+.stream-error.show{display:flex;}
+.stream-error button{background:var(--magenta);color:#fff;border:0;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;}
+.watch-cta{margin-top:20px;padding:24px;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.watch-cta p{font-size:14px;color:#555;}
+@media(max-width:600px){.watch-hero{padding:32px 0 16px;}.watch-cta{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="ch">CH</span>Spirit TV<span style="margin-left:10px;font-size:11px;font-weight:700;letter-spacing:.06em;color:rgba(245,246,250,.55);border:1px solid rgba(245,246,250,.22);padding:3px 9px;border-radius:6px;">UGANDA</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/shows.html">Shows</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+    <a href="/watch.html" class="nav-cta">▶ Watch Live</a>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="watch-hero">
+  <div class="wrap">
+    <div class="live-badge"><span class="live-dot"></span>Live Now</div>
+    <div class="watch-title">Watch Spirit TV Live</div>
+    <div class="watch-sub">Streaming from Uganda to the world — inspiring Christian content and entertainment, 24/7.</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="player-wrap" id="player-wrap">
+    <video id="spirit-tv-player" playsinline controls></video>
+
+    <div class="player-loading" id="player-loading">
+      <div class="spinner"></div>
+      <p>Connecting to Spirit TV...</p>
+    </div>
+
+    <div class="stream-error" id="stream-error">
+      <p>We're having trouble connecting to the stream.</p>
+      <button onclick="startStream()">Try Again</button>
+    </div>
+
+    <div class="player-controls" id="player-controls">
+      <button id="play-btn" onclick="togglePlay()">⏸</button>
+      <input type="range" min="0" max="100" value="90" oninput="setVol(this.value)">
+      <button onclick="toggleFullscreen()" style="margin-left:auto;">⛶</button>
+    </div>
+  </div>
+
+  <div class="watch-cta">
+    <p>Prefer watching on your phone? Get Spirit TV wherever you go with the Spirit Media app.</p>
+    <div class="app-badges" style="display:flex;gap:10px;">
+      <a href="https://apps.apple.com/ug/app/spirit-media-ug/id6473387035" target="_blank" rel="noopener" class="app-badge">Apple App Store</a>
+      <a href="https://play.google.com/store/apps/details?id=com.spiritmedia.ug" target="_blank" rel="noopener" class="app-badge">Google Play</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Spirit TV</div>
+        <p>A place for you — inspiring Christian content and entertainment from Uganda.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="/shows.html">Shows</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Watch</h4>
+        <a href="https://apps.apple.com/ug/app/spirit-media-ug/id6473387035" target="_blank" rel="noopener">Apple App Store</a>
+        <a href="https://play.google.com/store/apps/details?id=com.spiritmedia.ug" target="_blank" rel="noopener">Google Play</a>
+      </div>
+      <div>
+        <h4>Family</h4>
+        <p>Part of Spirit Media, alongside Spirit FM 96.6.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Spirit TV. All Rights Reserved.</span>
+      <span>Part of the Spirit Media family — with Spirit FM.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+var STREAM = 'https://stream-server9-jupiter.muxlive.com/hls/spirittv/index.m3u8';
+var video = document.getElementById('spirit-tv-player');
+var hls;
+
+function showLoading(){ document.getElementById('player-loading').style.display='flex'; document.getElementById('stream-error').classList.remove('show'); }
+function hideLoading(){ document.getElementById('player-loading').style.display='none'; }
+function showError(){ hideLoading(); document.getElementById('stream-error').classList.add('show'); }
+
+function startStream(){
+  showLoading();
+  if(hls){ hls.destroy(); }
+  if(Hls.isSupported()){
+    hls = new Hls({
+      liveDurationInfinity: true,
+    });
+    hls.loadSource(STREAM);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function(){
+      hideLoading();
+      video.play().catch(function(){});
+    });
+    hls.on(Hls.Events.ERROR, function(event, data){
+      if(data.fatal){ showError(); }
+    });
+  } else if(video.canPlayType('application/vnd.apple.mpegurl')){
+    video.src = STREAM;
+    video.addEventListener('loadedmetadata', function(){
+      hideLoading();
+      video.play().catch(function(){});
+    });
+    video.addEventListener('error', showError);
+  } else {
+    showError();
+  }
+}
+
+function togglePlay(){
+  if(video.paused){ video.play(); updatePlayBtn(true); }
+  else { video.pause(); updatePlayBtn(false); }
+}
+function updatePlayBtn(playing){
+  document.getElementById('play-btn').textContent = playing ? '⏸' : '▶';
+}
+function setVol(v){ video.volume = v/100; }
+function toggleFullscreen(){
+  var wrap = document.getElementById('player-wrap');
+  if(wrap.requestFullscreen){ wrap.requestFullscreen(); }
+}
+
+video.addEventListener('play', function(){ updatePlayBtn(true); });
+video.addEventListener('pause', function(){ updatePlayBtn(false); });
+
+video.volume = 0.9;
+startStream();
+</script>
+
+<script>
+function toggleSiteMobileMenu(){
+  var links = document.querySelector('.nav-links');
+  if(links){ links.style.display = links.style.display === 'flex' ? 'none' : 'flex'; }
+}
+document.querySelector('.menu-toggle')?.addEventListener('click', toggleSiteMobileMenu);
+</script>
+
+</body>
+</html>

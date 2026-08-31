@@ -18,7 +18,7 @@
       <a href="/about.html">About</a>
       <a href="/contact.html">Contact</a>
     </div>
-    <a href="#watch" class="nav-cta">▶ Watch Live</a>
+    <a href="/watch.html" class="nav-cta">▶ Watch Live</a>
     <button class="menu-toggle" aria-label="Menu">☰</button>
   </div>
 </nav>
@@ -30,7 +30,7 @@
       <h1>A Place<br><span>For You.</span></h1>
       <p class="lede">Inspiring Christian content and entertainment for thousands of engaged viewers who tune in daily — on air and on the Spirit Media app.</p>
       <div class="hero-actions">
-        <a href="#watch" class="btn btn-play">▶ Watch Live Now</a>
+        <a href="/watch.html" class="btn btn-play">▶ Watch Live Now</a>
         <a href="/shows.html" class="btn btn-outline">Browse Shows</a>
       </div>
       <div class="app-badges">
@@ -41,14 +41,32 @@
     <div class="tv-frame">
       <div class="tv-frame-bar">
         <span class="rec"><span class="dot"></span>Live</span>
-        <span>Spirit TV · Channel 01</span>
+        <span>Spirit TV · Uganda</span>
       </div>
       <div class="tv-screen" id="watch">
-        <img src="https://spirittv.co.ug/wp-content/uploads/2024/09/FIRST-SILDE.jpg" alt="Spirit TV livestream">
+        <video id="spirit-tv-hero-player" playsinline muted autoplay style="width:100%;height:100%;object-fit:cover;background:#000;"></video>
       </div>
     </div>
   </div>
 </header>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
+<script>
+(function(){
+  var STREAM = 'https://stream-server9-jupiter.muxlive.com/hls/spirittv/index.m3u8';
+  var video = document.getElementById('spirit-tv-hero-player');
+  if(!video) return;
+  if(Hls.isSupported()){
+    var hls = new Hls();
+    hls.loadSource(STREAM);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function(){ video.play().catch(function(){}); });
+  } else if(video.canPlayType('application/vnd.apple.mpegurl')){
+    video.src = STREAM;
+    video.addEventListener('loadedmetadata', function(){ video.play().catch(function(){}); });
+  }
+})();
+</script>
 
 <div class="stats-strip">
   <div class="wrap grid-3">
