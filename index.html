@@ -50,27 +50,27 @@
         <span>Spirit TV · Uganda</span>
       </div>
       <div class="tv-screen" id="watch">
-        <video id="spirit-tv-hero-player" playsinline muted autoplay style="width:100%;height:100%;object-fit:cover;background:#000;"></video>
+        <div class="hero-slideshow">
+          <img src="/assets/img/hero/hero-1.jpg" alt="Spirit TV — African Exclusive" class="slide active">
+          <img src="/assets/img/hero/hero-2.jpg" alt="Spirit TV — The WakeUp Call" class="slide">
+          <img src="/assets/img/hero/hero-3.jpg" alt="Spirit TV — African Exclusive split screen" class="slide">
+          <img src="/assets/img/hero/hero-4.jpg" alt="Spirit TV — Requests at One" class="slide">
+        </div>
       </div>
     </div>
   </div>
 </header>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
 <script>
 (function(){
-  var STREAM = 'https://stream-server9-jupiter.muxlive.com/hls/spirittv/index.m3u8';
-  var video = document.getElementById('spirit-tv-hero-player');
-  if(!video) return;
-  if(Hls.isSupported()){
-    var hls = new Hls();
-    hls.loadSource(STREAM);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, function(){ video.play().catch(function(){}); });
-  } else if(video.canPlayType('application/vnd.apple.mpegurl')){
-    video.src = STREAM;
-    video.addEventListener('loadedmetadata', function(){ video.play().catch(function(){}); });
-  }
+  var slides = document.querySelectorAll('.hero-slideshow .slide');
+  if(!slides.length) return;
+  var i = 0;
+  setInterval(function(){
+    slides[i].classList.remove('active');
+    i = (i + 1) % slides.length;
+    slides[i].classList.add('active');
+  }, 3800);
 })();
 </script>
 
